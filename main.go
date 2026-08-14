@@ -16,7 +16,9 @@ func main() {
 		fmt.Println("  list            - Show all tasks")
 		fmt.Println("  add <title>     - Add a new task")
 		fmt.Println("  done <id>       - Mark task as completed")
+		fmt.Println("  undo <id>       - Mark task back to pending")
 		fmt.Println("  del <id>        - Delete a task")
+		fmt.Println("  clear           - Clear all completed tasks")
 		return
 	}
 
@@ -61,6 +63,19 @@ func main() {
 		todos.Save("todos.json")
 		fmt.Println("Marked task as done:", id)
 
+	case "undo":
+		if len(os.Args) < 3 {
+			fmt.Println("Error: please specify a task ID.")
+			return
+		}
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("Invalid ID:", os.Args[2])
+			return
+		}
+		todos.Undo(id)
+		todos.Save("todos.json")
+
 	case "del":
 		if len(os.Args) < 3 {
 			fmt.Println("Error: please specify a task ID.")
@@ -74,6 +89,14 @@ func main() {
 		todos.Delete(id)
 		todos.Save("todos.json")
 		fmt.Println("Deleted task:", id)
+
+	case "clear":
+		if len(todos) == 0 {
+			fmt.Println("No tasks found! Add one with: todo add \"Your task\"")
+			return
+		}
+		todos.Clear()
+		todos.Save("todos.json")
 
 	default:
 		fmt.Println("Unknown command:", command)

@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
-	"os"
 	"time"
 )
 
@@ -48,20 +46,35 @@ func (t *Todos) Delete(id int) error {
 	}
 	return fmt.Errorf("task with id %d not found", id)
 }
-func (t *Todos) Save(filename string) error {
-	data, err := json.MarshalIndent(t, "", "  ")
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(filename, data, 0644)
-}
-func (t *Todos) Load(filename string) error {
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		if os.IsNotExist(err) {
+
+func (t *Todos) Undo(id int) error {
+	for i := range *t {
+		if (*t)[i].ID == id {
+			(*t)[i].Done = false
+			(*t)[i].CompletedAt = nil
+
 			return nil
 		}
-		return err
 	}
-	return json.Unmarshal(data, t)
+	return fmt.Errorf("task with id %d not found", id)
+}
+
+func (t *Todos) Clear() error {
+
+	var remaining Todos
+	for _, task := range *t {
+		if !task.Done {
+			remaining = append(remaining, task)
+		}
+	}
+
+	clearedCount := len(*t) - len(remaining)
+	if clearedCount == 0 {
+		fmt.Println("No completed tasks found!")
+    } else {
+        fmt.Printf("Cleared %d completed task(s)!\n", clearedCount)
+    }
+
+	*t = remaining
+	return nil
 }
