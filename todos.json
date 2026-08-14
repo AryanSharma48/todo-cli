@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "title": "Finish golang todo",
+    "done": true
+  },
+  {
+    "id": 2,
+    "title": "Buy groceries",
+    "done": false
+  }
+]
