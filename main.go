@@ -8,7 +8,8 @@ import (
 
 
 func main() {
-	LoadTasks("todos.json")
+	todos := Todos{}
+	todos.Load("todos.json")
 
 	if len(os.Args) < 2 {
 		fmt.Println("Commands:")
@@ -23,11 +24,11 @@ func main() {
 
 	switch command {
 	case "list":
-		if len(tasks) == 0 {
+		if len(todos) == 0 {
 			fmt.Println("No tasks found! Add one with: todo add \"Your task\"")
 			return
 		}
-		for _, task := range tasks {
+		for _, task := range todos {
 			status := "[ ]"
 			if task.Done {
 				status = "[x]"
@@ -41,13 +42,8 @@ func main() {
 			return
 		}
 		title := os.Args[2]
-		newTask := Task{
-			ID:    len(tasks) + 1,
-			Title: title,
-			Done:  false,
-		}
-		AddTask(newTask)
-		SaveTasks("todos.json")
+		todos.Add(title)
+		todos.Save("todos.json")
 		fmt.Println("Added task:", title)
 
 	case "done":
@@ -61,8 +57,8 @@ func main() {
 			fmt.Println("Invalid ID:", os.Args[2])
 			return
 		}
-		CompleteTask(id)
-		SaveTasks("todos.json")
+		todos.Complete(id)
+		todos.Save("todos.json")
 		fmt.Println("Marked task as done:", id)
 
 	case "del":
@@ -75,8 +71,8 @@ func main() {
 			fmt.Println("Invalid ID:", os.Args[2])
 			return
 		}
-		DeleteTask(id)
-		SaveTasks("todos.json")
+		todos.Delete(id)
+		todos.Save("todos.json")
 		fmt.Println("Deleted task:", id)
 
 	default:
