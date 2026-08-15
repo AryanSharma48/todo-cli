@@ -17,7 +17,7 @@ type Todos []Task
 
 func (t* Todos) Add(title string) {
 	task := Task{
-		ID:        len(*t) + 1,
+		ID:        t.getNextID(),
 		Title:     title,
 		Done:      false,
 		CreatedAt: time.Now(),
@@ -25,7 +25,7 @@ func (t* Todos) Add(title string) {
 	*t = append(*t, task)
 }
 
-func (t *Todos) Complete(id int) error {
+func (t* Todos) Complete(id int) error {
 	for i := range *t {
 		if (*t)[i].ID == id {
 			(*t)[i].Done = true
@@ -37,7 +37,7 @@ func (t *Todos) Complete(id int) error {
 	return fmt.Errorf("task with id %d not found", id)
 }
 
-func (t *Todos) Delete(id int) error {
+func (t* Todos) Delete(id int) error {
 	for i, task := range *t {
 		if task.ID == id {
 			*t = append((*t)[:i], (*t)[i+1:]...)
@@ -47,7 +47,7 @@ func (t *Todos) Delete(id int) error {
 	return fmt.Errorf("task with id %d not found", id)
 }
 
-func (t *Todos) Undo(id int) error {
+func (t* Todos) Undo(id int) error {
 	for i := range *t {
 		if (*t)[i].ID == id {
 			(*t)[i].Done = false
@@ -59,7 +59,7 @@ func (t *Todos) Undo(id int) error {
 	return fmt.Errorf("task with id %d not found", id)
 }
 
-func (t *Todos) Clear() error {
+func (t* Todos) Clear() error {
 
 	var remaining Todos
 	for _, task := range *t {

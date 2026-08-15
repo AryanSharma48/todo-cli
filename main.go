@@ -26,17 +26,7 @@ func main() {
 
 	switch command {
 	case "list":
-		if len(todos) == 0 {
-			fmt.Println("No tasks found! Add one with: todo add \"Your task\"")
-			return
-		}
-		for _, task := range todos {
-			status := "[ ]"
-			if task.Done {
-				status = "[x]"
-			}
-			fmt.Printf("%s %d. %s\n", status, task.ID, task.Title)
-		}
+		todos.PrintTable()
 
 	case "add":
 		if len(os.Args) < 3 {
