@@ -26,7 +26,20 @@ func main() {
 
 	switch command {
 	case "list":
-		todos.PrintTable()
+		filter := ""
+		if len(os.Args) >= 3 {
+			switch os.Args[2] {
+			case "--done":
+				filter = "done"
+			case "--pending":
+				filter = "pending"
+			default:
+				fmt.Println("Unknown filter option! Use: todo list [--done|--pending]")
+				return
+			}
+		}
+		todos.PrintTable(filter)
+
 
 	case "add":
 		if len(os.Args) < 3 {
