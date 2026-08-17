@@ -7,7 +7,7 @@ A simple, fast, and robust command-line todo list application written in Go. It 
 Ensure you have Go installed, then clone the repository and build the binary:
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/aryansharma48/todo-cli.git>
 cd to-do
 go build -o todo
 ```
