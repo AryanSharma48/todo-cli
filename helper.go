@@ -53,7 +53,7 @@ func (t *Todos) PrintTable(filter string) {
 }
 
 
-func (t* Todos) getNextID() int {
+func (t *Todos) getNextID() int {
 	maxID := 0
 	for i := range *t {
 		if (*t)[i].ID > maxID {

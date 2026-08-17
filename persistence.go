@@ -7,7 +7,7 @@ import (
 
 // Saving and loading from local disk
 
-func (t* Todos) Save(filename string) error {
+func (t *Todos) Save(filename string) error {
 	data, err := json.MarshalIndent(t, "", "  ")
 	if err != nil {
 		return err
@@ -15,7 +15,7 @@ func (t* Todos) Save(filename string) error {
 	return os.WriteFile(filename, data, 0644)
 }
 
-func (t* Todos) Load(filename string) error {
+func (t *Todos) Load(filename string) error {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		if os.IsNotExist(err) {
