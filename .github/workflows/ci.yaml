@@ -1,0 +1,29 @@
+name: todo CI
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build-and-test-backend:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: checkout todo-cli
+              uses: actions/checkout@v4
+
+            - name: Setup Go
+              uses: actions/setup-go@v5
+              with:
+                  go-version-file: 'go.mod'
+
+            - name: Run tests
+              working-directory: ./
+              run: make test
+
+
+    
